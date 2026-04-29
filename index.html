@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yochai Yemini – AI Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0f1117;
+      --ink-light: #444b5c;
+      --ink-faint: #8892a4;
+      --accent: #1a56db;
+      --accent-soft: #dbe9ff;
+      --surface: #f7f8fc;
+      --white: #ffffff;
+      --border: #e2e6ef;
+      --tag-bg: #eef2ff;
+      --tag-fg: #2d5be3;
+      --radius: 10px;
+      --max: 860px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--surface);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247,248,252,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 56px;
+    }
+    .nav-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; color: var(--ink); text-decoration: none;
+      letter-spacing: .01em;
+    }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: .85rem; font-weight: 500; color: var(--ink-light);
+      text-decoration: none; letter-spacing: .03em;
+      transition: color .18s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: var(--max); margin: 0 auto;
+      padding: 80px 24px 64px;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 48px; align-items: start;
+    }
+    .hero-text {}
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .78rem; color: var(--accent);
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: 0; animation: fadeUp .6s .1s ease forwards;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      line-height: 1.1; color: var(--ink);
+      margin-bottom: 20px;
+      opacity: 0; animation: fadeUp .6s .2s ease forwards;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-bio {
+      font-size: 1.05rem; color: var(--ink-light);
+      max-width: 520px; line-height: 1.75;
+      opacity: 0; animation: fadeUp .6s .3s ease forwards;
+    }
+    .hero-links {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-top: 32px;
+      opacity: 0; animation: fadeUp .6s .4s ease forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px; border-radius: 6px;
+      font-size: .875rem; font-weight: 500; text-decoration: none;
+      transition: all .18s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border: 1.5px solid var(--accent);
+    }
+    .btn-primary:hover { background: #1245c0; border-color: #1245c0; }
+    .btn-outline {
+      background: transparent; color: var(--ink-light);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-avatar {
+      opacity: 0; animation: fadeIn .8s .3s ease forwards;
+    }
+    .avatar-ring {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+      padding: 3px;
+      box-shadow: 0 8px 32px rgba(26,86,219,.18);
+    }
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.2rem; color: var(--accent);
+      letter-spacing: -.02em;
+    }
+    .affil-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 24px;
+      opacity: 0; animation: fadeUp .6s .5s ease forwards;
+    }
+    .affil-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-soft); border: 2px solid var(--accent);
+      flex-shrink: 0;
+    }
+    .affil-text { font-size: .82rem; color: var(--ink-faint); }
+    .affil-text strong { color: var(--ink-light); font-weight: 500; }
+
+    /* ── SECTION COMMON ── */
+    section { max-width: var(--max); margin: 0 auto; padding: 0 24px 72px; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem; color: var(--accent);
+      letter-spacing: .15em; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.85rem; color: var(--ink);
+      margin-bottom: 32px;
+    }
+    .divider {
+      max-width: var(--max); margin: 0 auto 72px;
+      padding: 0 24px;
+    }
+    .divider hr { border: none; border-top: 1px solid var(--border); }
+
+    /* ── RESEARCH INTERESTS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag {
+      background: var(--tag-bg); color: var(--tag-fg);
+      font-size: .8rem; font-weight: 500;
+      padding: 5px 14px; border-radius: 100px;
+      border: 1px solid #c7d7ff;
+      transition: all .15s;
+    }
+    .tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); cursor: default; }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list { display: flex; flex-direction: column; gap: 20px; }
+    .pub-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      transition: box-shadow .2s, border-color .2s;
+      position: relative;
+    }
+    .pub-card:hover {
+      box-shadow: 0 4px 24px rgba(26,86,219,.08);
+      border-color: #c7d7ff;
+    }
+    .pub-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem; letter-spacing: .08em;
+      padding: 3px 10px; border-radius: 4px;
+      font-weight: 600; margin-bottom: 10px;
+    }
+    .badge-iclr  { background: #fef3c7; color: #92400e; }
+    .badge-icassp { background: #d1fae5; color: #065f46; }
+    .badge-interspeech { background: #ede9fe; color: #5b21b6; }
+    .badge-icml  { background: #fee2e2; color: #991b1b; }
+    .badge-journal { background: #e0f2fe; color: #075985; }
+    .badge-preprint { background: #f1f5f9; color: #475569; }
+
+    .pub-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; color: var(--ink);
+      line-height: 1.4; margin-bottom: 6px;
+    }
+    .pub-authors { font-size: .85rem; color: var(--ink-faint); margin-bottom: 4px; }
+    .pub-authors strong { color: var(--ink-light); }
+    .pub-venue { font-size: .82rem; color: var(--ink-faint); font-style: italic; }
+    .pub-year {
+      position: absolute; top: 22px; right: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: .78rem; color: var(--ink-faint);
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item {
+      display: grid; grid-template-columns: 120px 1fr;
+      gap: 0 24px; position: relative; padding-bottom: 36px;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item::before {
+      content: '';
+      position: absolute; left: 118px; top: 8px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .tl-item:last-child::before { display: none; }
+    .tl-date {
+      font-family: 'DM Mono', monospace;
+      font-size: .76rem; color: var(--ink-faint);
+      padding-top: 4px; text-align: right;
+    }
+    .tl-dot {
+      position: absolute; left: 112px; top: 6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--accent);
+      z-index: 1;
+    }
+    .tl-content {}
+    .tl-role { font-weight: 500; color: var(--ink); font-size: 1rem; }
+    .tl-org { font-size: .88rem; color: var(--accent); margin-bottom: 6px; }
+    .tl-desc { font-size: .9rem; color: var(--ink-light); line-height: 1.65; }
+
+    /* ── EDUCATION ── */
+    .edu-list { display: flex; flex-direction: column; gap: 20px; }
+    .edu-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 4px 16px; align-items: start;
+    }
+    .edu-degree { font-weight: 500; font-size: 1rem; color: var(--ink); }
+    .edu-school { font-size: .88rem; color: var(--ink-faint); }
+    .edu-note { font-size: .82rem; color: var(--accent); font-style: italic; grid-column: 1; }
+    .edu-year {
+      font-family: 'DM Mono', monospace;
+      font-size: .8rem; color: var(--ink-faint); text-align: right;
+      padding-top: 3px;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .contact-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 22px;
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none; color: inherit;
+      transition: all .18s;
+    }
+    .contact-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(26,86,219,.1);
+      transform: translateY(-2px);
+    }
+    .contact-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--accent-soft); display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contact-icon svg { width: 18px; height: 18px; stroke: var(--accent); }
+    .contact-label { font-size: .78rem; color: var(--ink-faint); margin-bottom: 2px; }
+    .contact-value { font-size: .92rem; font-weight: 500; color: var(--ink-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center; padding: 28px 24px;
+      font-size: .8rem; color: var(--ink-faint);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-avatar { order: -1; }
+      .avatar-ring { width: 100px; height: 100px; }
+      .avatar-inner { font-size: 2rem; }
+      .tl-item { grid-template-columns: 80px 1fr; }
+      .tl-item::before { left: 78px; }
+      .tl-dot { left: 72px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-name" href="#">Yochai Yemini</a>
+    <div class="nav-links">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Audio · Vision · Speech</div>
+    <h1>Yochai<br/><em>Yemini</em></h1>
+    <p class="hero-bio">
+      Ph.D. researcher in deep learning, specializing in audio-visual speech processing.
+      My work spans speech separation, enhancement, dereverberation, and generative synthesis —
+      combining signal processing with modern deep learning to make machines hear and understand speech better.
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="mailto:yochay.ye@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Get in Touch
+      </a>
+      <a class="btn btn-outline" href="Yochai_Yemini_CV.pdf">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Download CV
+      </a>
+      <a class="btn btn-outline" href="https://scholar.google.com/scholar?q=Yochai+Yemini" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Google Scholar
+      </a>
+    </div>
+    <div class="affil-row">
+      <div class="affil-dot"></div>
+      <span class="affil-text">Ph.D. 2025 · <strong>Bar-Ilan University</strong> · Faculty of Engineering</span>
+    </div>
+  </div>
+  <div class="hero-avatar">
+    <div class="avatar-ring">
+      <div class="avatar-inner">YY</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH INTERESTS -->
+<section id="research">
+  <div class="section-label">Focus Areas</div>
+  <h2>Research Interests</h2>
+  <div class="tags">
+    <span class="tag">Speech Separation</span>
+    <span class="tag">Speech Enhancement</span>
+    <span class="tag">Dereverberation</span>
+    <span class="tag">Audio-Visual Learning</span>
+    <span class="tag">Generative Speech Synthesis</span>
+    <span class="tag">Diffusion Models</span>
+    <span class="tag">Multi-Microphone Processing</span>
+    <span class="tag">Lip Reading</span>
+    <span class="tag">Wake-Word Detection</span>
+    <span class="tag">Few-Shot Learning</span>
+  </div>
+</section>
+
+<div class="divider"><hr/></div>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-label">Selected Work</div>
+  <h2>Publications</h2>
+  <div class="pub-list">
+
+    <div class="pub-card">
+      <span class="pub-badge badge-preprint">Under Review</span>
+      <span class="pub-year">2025</span>
+      <div class="pub-title">SSNAPS: Audio-Visual Separation of Speech and Background Noise with Diffusion Inverse Sampling</div>
+      <div class="pub-authors"><strong>Y. Yemini</strong>, Y. Ellinson, R. Ben-Ari, S. Gannot, E. Fetaya</div>
+      <div class="pub-venue">IEEE Transactions on Audio, Speech, and Language Processing (submitted)</div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge badge-icassp">ICASSP 2026</span>
+      <span class="pub-year">2026</span>
+      <div class="pub-title">Diffusion-based Unsupervised Audio-Visual Speech Separation in Noisy Environments with Noise Prior</div>
+      <div class="pub-authors"><strong>Y. Yemini</strong>, R. Ben-Ari, S. Gannot, E. Fetaya</div>
+      <div class="pub-venue">IEEE International Conference on Acoustics, Speech and Signal Processing · Barcelona</div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge badge-iclr">ICLR 2024</span>
+      <span class="pub-year">2024</span>
+      <div class="pub-title">LipVoicer: Generating Speech from Silent Videos Guided by Lip Reading</div>
+      <div class="pub-authors"><strong>Y. Yemini</strong>, A. Shamsian, L. Bracha, S. Gannot, E. Fetaya</div>
+      <div class="pub-venue">International Conference on Learning Representations</div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge badge-interspeech">Interspeech 2021</span>
+      <span class="pub-year">2021</span>
+      <div class="pub-title">Scene-Agnostic Multi-Microphone Speech Dereverberation</div>
+      <div class="pub-authors"><strong>Y. Yemini</strong>, E. Fetaya, H. Maron, S. Gannot</div>
+      <div class="pub-venue">Interspeech 2021</div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge badge-icml">ICML 2021</span>
+      <span class="pub-year">2021</span>
+      <div class="pub-title">GP-Tree: A Gaussian Process Classifier for Few-Shot Incremental Learning</div>
+      <div class="pub-authors">I. Achituv, A. Navon, <strong>Y. Yemini</strong>, G. Chechik, E. Fetaya</div>
+      <div class="pub-venue">International Conference on Machine Learning</div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge badge-icassp">ICASSP 2020</span>
+      <span class="pub-year">2020</span>
+      <div class="pub-title">A Composite DNN Architecture for Speech Enhancement</div>
+      <div class="pub-authors"><strong>Y. Yemini</strong>, S. E. Chazan, J. Goldberger, S. Gannot</div>
+      <div class="pub-venue">IEEE International Conference on Acoustics, Speech and Signal Processing · Barcelona</div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge badge-journal">Journal 2016</span>
+      <span class="pub-year">2016</span>
+      <div class="pub-title">Single Microphone Speech Separation by Diffusion-Based HMM Estimation</div>
+      <div class="pub-authors"><strong>Y. Yemini</strong>, Y. Keller, S. Gannot</div>
+      <div class="pub-venue">EURASIP Journal on Audio, Speech, and Music Processing</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"><hr/></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Industry</div>
+  <h2>Experience</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">2023–2024</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-role">Research Intern</div>
+        <div class="tl-org">OriginAI · Israel</div>
+        <div class="tl-desc">Developed audio-visual deep learning methods for speech separation and dereverberation in challenging real-world acoustic environments.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2021</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-role">Research Intern — Alexa ML</div>
+        <div class="tl-org">Amazon · Remote</div>
+        <div class="tl-desc">Designed novel approaches to improve wake-word detection accuracy for non-English accents, broadening multilingual robustness of Alexa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr/></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Academic Background</div>
+  <h2>Education</h2>
+  <div class="edu-list">
+    <div class="edu-card">
+      <div class="edu-degree">Ph.D., Electrical Engineering</div>
+      <div class="edu-year">2019 – 2025</div>
+      <div class="edu-school">Bar-Ilan University · Supervised by Prof. Sharon Gannot & Dr. Ethan Fetaya</div>
+      <div class="edu-note">President's Scholarship for Excellent PhD Students, 2019–2023</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">M.Sc., Electrical Engineering</div>
+      <div class="edu-year">2011</div>
+      <div class="edu-school">Bar-Ilan University · Joint B.Sc.–M.Sc. Programme for Excellent Students</div>
+      <div class="edu-note">Graduated Magna Cum Laude</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">B.Sc., Electrical Engineering</div>
+      <div class="edu-year">2010</div>
+      <div class="edu-school">Bar-Ilan University · Faculty of Engineering</div>
+      <div class="edu-note">Graduated Magna Cum Laude · Faculty Prize for Outstanding Graduation Project</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr/></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2>Contact</h2>
+  <div class="contact-grid">
+    <a class="contact-card" href="mailto:yochay.ye@gmail.com">
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">yochay.ye@gmail.com</div>
+      </div>
+    </a>
+    <a class="contact-card" href="tel:+972549435070">
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Mobile</div>
+        <div class="contact-value">+972 54-943-5070</div>
+      </div>
+    </a>
+    <a class="contact-card" href="https://scholar.google.com/scholar?q=Yochai+Yemini" target="_blank">
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Research</div>
+        <div class="contact-value">Google Scholar</div>
+      </div>
+    </a>
+    <a class="contact-card" href="https://github.com" target="_blank">
+      <div class="contact-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Code</div>
+        <div class="contact-value">GitHub</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  © 2025 Yochai Yemini · Built with GitHub Pages
+</footer>
+
+</body>
+</html>
