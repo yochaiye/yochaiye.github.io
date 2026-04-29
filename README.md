@@ -1,2 +1,2 @@
-# yochai-yemini.github.io
+# yochaiye.github.io
 personal website
